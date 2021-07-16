@@ -384,7 +384,7 @@ var renderbank = function(added){
                 epointertext.value = epointers[selected]
                 ctx.fillStyle = "white";
                 ctx.clearRect(0, 0, 256, 256);
-                drawChunkImageData(ctx,imageDatas)//.putImageData(imageData, 0, 0)
+                drawChunkImageData(ctx)//.putImageData(imageData, 0, 0)
                 drawgrid(ctx)
                 drawgrid(ctx)
 
@@ -941,14 +941,14 @@ window.addEventListener("EnterFrame", function(){
 window.addEventListener("mousedown", function(){
     renderroom()
     changeTileset(imagetileset)
-    drawChunkImageData(document.getElementById("edit").getContext("2d"),imageDatas)
+    drawChunkImageData(document.getElementById("edit").getContext("2d"))
     drawgrid(document.getElementById("edit").getContext("2d"))
 })
 
 window.addEventListener("mouseup", function(){
     renderroom()
     changeTileset(imagetileset)
-    drawChunkImageData(document.getElementById("edit").getContext("2d"),imageDatas)
+    drawChunkImageData(document.getElementById("edit").getContext("2d"))
     drawgrid(document.getElementById("edit").getContext("2d"))
 })
 
