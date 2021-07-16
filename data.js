@@ -105,7 +105,7 @@ var decode = function(){
     var hs = byteArray.length
     console.log("End @ " + hs.toString(16))
     while (s != hs){
-        startbank[h] = s.toString(16)
+        startbank[h] = s;
         s += 0x4000 // bank size
         h += 1
         console.log("Load bank @ " + s.toString(16))

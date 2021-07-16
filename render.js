@@ -238,7 +238,7 @@ var renderbank = function(added){
                 var pos = parseInt(""+y.toString(16)+""+x.toString(16)+"", 16)
                 var posb = ""+parseInt(chunks[chunk].pointer+"00", 16)
                     posb -= 0x4000
-                    posb += parseInt(startbank[input.selectedIndex], 16)
+                    posb += startbank[input.selectedIndex]
                     posb += pos
 
                 if(edittile){
@@ -330,7 +330,7 @@ var renderbank = function(added){
                     var pos = parseInt(""+Math.floor(e.offsetY/16).toString(16)+""+Math.floor(e.offsetX/16).toString(16)+"", 16)
                     var posb = ""+parseInt(chunks[parseInt(pointers[selected], 16)-0x45].pointer+"00", 16)
                         posb -= 0x4000
-                        posb += parseInt(startbank[input.selectedIndex], 16)
+                        posb += startbank[input.selectedIndex]
                         posb += pos
                     if(edittile === true){
                         byteArray[posb] = tile
@@ -401,7 +401,7 @@ var renderbank = function(added){
                 //renderroom()
 
                 pointertext.onchange=function(){
-                    var loc = parseInt(startbank[input.selectedIndex], 16)
+                    var loc = startbank[input.selectedIndex]
                     var select = selected * 2
                     var locp = loc + select
                     byteArray[locp] = pointertext.value.substr(0, 2)
@@ -411,7 +411,7 @@ var renderbank = function(added){
                 }
 
                 transtext.onchange=function(){
-                    var loc = parseInt(startbank[input.selectedIndex], 16)+0x300
+                    var loc = startbank[input.selectedIndex]+0x300
                     var select = selected * 2
                     var locp = loc + select
                     byteArray[locp] = transtext.value.substr(0, 2)
@@ -421,7 +421,7 @@ var renderbank = function(added){
                 }
 
                 scrolltext.onchange=function(){
-                    var loc = parseInt(startbank[input.selectedIndex], 16)+0x200
+                    var loc = startbank[input.selectedIndex]+0x200
                     var locp = loc + selected
                     byteArray[locp] = scrolltext.value
                     scroll[selected] = scrolltext.value
@@ -464,7 +464,7 @@ var renderbank = function(added){
 
     var point = 0
     while(point != 256){
-        var loc = parseInt(startbank[input.selectedIndex], 16)
+        var loc = startbank[input.selectedIndex]
         var p = point *2
         var locp = loc + p
         pointers[point] = ""+byteArray[locp]+""+byteArray[locp+1]+""
@@ -473,7 +473,7 @@ var renderbank = function(added){
 
     point = 0
     while(point != 256){
-        var loc = parseInt(startbank[input.selectedIndex], 16)+0x300
+        var loc = startbank[input.selectedIndex]+0x300
         var p = point *2
         var locp = loc + p
         room_transitions[point] = ""+byteArray[locp]+""+byteArray[locp+1]+""
@@ -482,7 +482,7 @@ var renderbank = function(added){
 
     point = 0
     while(point != 256){
-        var loc = parseInt(startbank[input.selectedIndex], 16)+0x200
+        var loc = startbank[input.selectedIndex]+0x200
         var locp = loc + point
         scroll[point] = byteArray[locp]
         point += 1
@@ -520,7 +520,7 @@ var renderbank = function(added){
         chunks[point].collisions = []
         var e = 0
         while(e != 256){
-            var loc = parseInt(startbank[input.selectedIndex], 16)+0x500
+            var loc = startbank[input.selectedIndex]+0x500
             var hex = chunks[point].pointer
             var pointer = parseInt(""+hex+"00", 16)
             pointer -= 0x4500
