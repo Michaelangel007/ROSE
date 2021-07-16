@@ -1,17 +1,20 @@
 var startbank = ["24000","28000","2C000","30000","34000","38000","3C000"]
 var imageDatas = []
 var prevTileset
-var drawChunkImageData = function(ctx,imageDatas){
+
+// Render map tiles from
+var drawChunkImageData = function(ctx){
     // BUGFIX: Don't render if user hasn't loaded ROM file yet
     if(pointers[0] === undefined)
         return;
 
-    var c = 0
-    for (let y = 0; y != 16; y += 1) {
-        for (let x = 0; x != 16; x += 1) {
-            var data = new ImageData(imageDatas[parseInt(pointers[c],16)-0x45], 16)
+    var chunk = 0, x, y, offset, data
+    for (y = 0; y != 16; y += 1) {
+        for (x = 0; x != 16; x += 1) {
+            tile = parseInt(pointers[chunk],16)-0x45
+            data = new ImageData(imageDatas[tile], 16, 16)
             ctx.putImageData(data, x*16, y*16)
-            c += 1
+            chunk++
         }
     }
 }
