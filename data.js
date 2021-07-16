@@ -95,42 +95,43 @@ var decode = function(){
         var res = bytes.substr(b, e)
         byteArray[counter] = res.substr(0, 2)
         
-if(counter===parseInt("2800B",16) && byteArray[counter]==="00"){
-byteArray[counter] ="45"
-}
-e = b
+        if(counter=== 0x2800B && byteArray[counter]==="00"){
+            byteArray[counter] ="45"
+        }
+        e = b
     }
-    var s = parseInt("24000", 16)
+    var s = 0x24000 // bank start
     var h = 0
     var hs = byteArray.length
-    console.log(hs.toString(16))
+    console.log("End @ " + hs.toString(16))
     while (s != hs){
         startbank[h] = s.toString(16)
-        s += parseInt("4000", 16)
+        s += 0x4000 // bank size
         h += 1
-        console.log(s.toString(16))
+        console.log("Load bank @ " + s.toString(16))
         if(h >= 256){
             break
         }
     }
     renderbank(true)
 }
+
 var encode = function(){
     var value = ""
     var bytes = hexout
     //byteArray[parseInt({address in hexidecimal}, 16) OR {address in base-10] = {replacement}
     //(base values) 4E6F	$6000	graphics
-    byteArray[parseInt("4E6F", 16)]	= tiles0
-    byteArray[parseInt("4E70", 16)] = tiles1
+    byteArray[0x4E6F]	= tiles0
+    byteArray[0x4E70] = tiles1
 
     //(base values) 4E71    $5280  	Metatile
-    byteArray[parseInt("4E71", 16)] = metatiles0
-    byteArray[parseInt("4E72", 16)] = metatiles1
+    byteArray[0x4E71] = metatiles0
+    byteArray[0x4E72] = metatiles1
 
     //(base values) 4E73    $4580   collision
-    byteArray[parseInt("4E73", 16)] = collision0
-    byteArray[parseInt("4E74", 16)]	= collision1
-    byteArray[parseInt("4E6E", 16)] = tilebank
+    byteArray[0x4E73] = collision0
+    byteArray[0x4E74]	= collision1
+    byteArray[0x4E6E] = tilebank
     if(localStorage.getItem("mapbank") != null){
         var mapp = localStorage.getItem("map")
         var map = mapp.split(",",260)
