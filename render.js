@@ -1,4 +1,3 @@
-var startbank = ["24000","28000","2C000","30000","34000","38000","3C000"]
 var imageDatas = []
 var prevTileset
 
