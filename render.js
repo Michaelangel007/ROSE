@@ -109,6 +109,7 @@ var loadtileset = function(){
     var selected = select.selectedIndex+9
     tileset.src = "Tilesets/"+selected.toString(16)+".png";
     imagetileset =  tileset
+
     drawgrid(tilectx)
 }
 
@@ -144,7 +145,7 @@ var renderroom = function(){
         } else {
             xOffset = 0
             yOffset = 0
-        } 
+        }
         xpos += xOffset
         ypos += yOffset
         renderer.drawImage(imagetileset,tilex*16,tiley*16,16,16,xpos*16,ypos*16,16,16)
