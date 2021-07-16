@@ -363,13 +363,12 @@ var renderbank = function(added){
         if(added === true){
             canvas.addEventListener("mousedown", function(e){
                 var simplePalette = [0,255,127]
-                var array = []
+                var bitmap = [], ibitmap
 
-                for(let e = 0; e!=256;e+=1){
-                    array[e]=new Uint8ClampedArray(1024)
+                for(ibitmap = 0; ibitmap < 256; ibitmap++){
+                    bitmap[ibitmap]=new Uint8ClampedArray(1024)
                 }
-
-                generateArray(array, simplePalette,chunks)
+                generateArray(bitmap, simplePalette, chunks)
 
                 var pointertext = document.getElementById("pointers")
                 var scrolltext = document.getElementById("scroll")
