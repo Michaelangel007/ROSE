@@ -126,13 +126,9 @@ var renderroom = function(){
             ypos += 1
         }
         var currentbyte = chunks[parseInt(chunk, 16)-0x45].chunk[d]
-        //0 = 7f
-        var tilex = parseInt(currentbyte, 16)
-        var tiley = 0
-        while(tilex > 16){
-            tilex -= 16
-            tiley += 1
-        }
+        var raw = parseInt(currentbyte, 16)
+        var tilex =  raw % 16
+        var tiley = (raw / 16) | 0
         var xOffset = 0
         var yOffset = 0
         if(x != undefined ||x != null){
