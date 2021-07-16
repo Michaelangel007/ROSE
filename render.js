@@ -19,7 +19,7 @@ var drawMap = function(ctx){
     }
 }
 
-arrayGenerated = false
+var arrayGenerated = false
 var tilectx = document.getElementById("tilesetimage").getContext("2d")
 
 var drawgrid = function(ctx, style){
