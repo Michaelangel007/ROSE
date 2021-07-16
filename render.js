@@ -220,80 +220,80 @@ var renderbank = function(added){
     if(added === true){
         roomedit.addEventListener("mousedown", function(e){
             var placeblock = function(ctx){
-            var edittile = true
-            if(tile === null || tile === undefined){
-                edittile = false
-            }
-            var pos = parseInt(""+Math.floor(e.offsetY/16).toString(16)+""+Math.floor(e.offsetX/16).toString(16)+"", 16)
-            var posb = ""+parseInt(chunks[parseInt(pointers[selected], 16)-0x45].pointer+"00", 16)
-                posb -= 0x4000
-                posb += parseInt(startbank[input.selectedIndex], 16)
-                posb += pos
-
-            if(edittile === true){
-                byteArray[posb] = tile
-                chunks[parseInt(pointers[selected], 16)-0x45].chunk[pos] = tile
-            } else {
-                console.error("exception: tile not selected")
-                console.log("edits not applied")
-            }
-            var x = Math.floor(e.offsetX/16)
-            var y = Math.floor(e.offsetY/16)
-            var xpos = parseInt(tile.substr(1, 2), 16)*16
-            var ypos = parseInt(tile.substr(0, 1), 16)*16
-            var xclear = x*16
-            var yclear = y*16
-            ctx.drawImage(imagetileset,xpos,ypos,16,16,xclear,yclear,16,16)
-            renderroom()
-        }
-
-        //for some wacko reason, 2 objects were being placed at once. K fixes this.
-        if(document.getElementById("mode").selectedIndex === 0){
-            var ctx = this.getContext("2d")
-            placeblock(ctx)
-        } else if(document.getElementById("mode").selectedIndex === 1){
-            var ctx = this.getContext("2d")
-            var ID = document.getElementById("OBJID").value
-            var x = Math.floor(e.offsetX/16)
-            var y = Math.floor(e.offsetY/16)
-            var sy = y*16
-            var sx = x*16
-            var type = document.getElementById("OBJType").value
-            var loc = document.getElementById("enemy-dat").value
-            var e = loc.substr(2, 4)
-            var d = parseInt(e, 16)
-                d += 0x80
-            e = loc.substr(0, 2)
-            loc = parseInt(""+d.toString(16)+""+e+"", 16)
-
-            if(objnum <= 15){
-                ctx.drawImage(obj, sx, sy)
-                var num = objnum*4
-                if(sy.toString(16) === "0"){
-                    sy = "00"
-                } else {
-                    var yy = sy.toString(16)
-                    sy = yy
+                var edittile = true
+                if(tile === null || tile === undefined){
+                    edittile = false
                 }
-                if(sx.toString(16) === "0"){
-                    sx = "00"
-                } else {
-                    var yy = sx.toString(16)
-                    sx = yy
-                }
+                var pos = parseInt(""+Math.floor(e.offsetY/16).toString(16)+""+Math.floor(e.offsetX/16).toString(16)+"", 16)
+                var posb = ""+parseInt(chunks[parseInt(pointers[selected], 16)-0x45].pointer+"00", 16)
+                    posb -= 0x4000
+                    posb += parseInt(startbank[input.selectedIndex], 16)
+                    posb += pos
 
-                byteArray[loc+num] = ID
-                byteArray[loc+num+1] = type
-                byteArray[loc+num+2] = sx
-                byteArray[loc+num+3] = sy
-                byteArray[loc+num+4] = "ff"
-                objnum += 1
-                k += 1
-            } else {
-                window.alert("16 is the object limit per screen")
+                if(edittile === true){
+                    byteArray[posb] = tile
+                    chunks[parseInt(pointers[selected], 16)-0x45].chunk[pos] = tile
+                } else {
+                    console.error("exception: tile not selected")
+                    console.log("edits not applied")
+                }
+                var x = Math.floor(e.offsetX/16)
+                var y = Math.floor(e.offsetY/16)
+                var xpos = parseInt(tile.substr(1, 2), 16)*16
+                var ypos = parseInt(tile.substr(0, 1), 16)*16
+                var xclear = x*16
+                var yclear = y*16
+                ctx.drawImage(imagetileset,xpos,ypos,16,16,xclear,yclear,16,16)
+                renderroom()
             }
-            //ctx.drawImage(objects[(parseInt(type, 16)][2],objects[(parseInt(type, 16)][0],objects[(parseInt(type, 16)][1])
-        } else if(document.getElementById("mode").selectedIndex === 2){
+
+            //for some wacko reason, 2 objects were being placed at once. K fixes this.
+            if(document.getElementById("mode").selectedIndex === 0){
+                var ctx = this.getContext("2d")
+                placeblock(ctx)
+            } else if(document.getElementById("mode").selectedIndex === 1){
+                var ctx = this.getContext("2d")
+                var ID = document.getElementById("OBJID").value
+                var x = Math.floor(e.offsetX/16)
+                var y = Math.floor(e.offsetY/16)
+                var sy = y*16
+                var sx = x*16
+                var type = document.getElementById("OBJType").value
+                var loc = document.getElementById("enemy-dat").value
+                var e = loc.substr(2, 4)
+                var d = parseInt(e, 16)
+                    d += 0x80
+                e = loc.substr(0, 2)
+                loc = parseInt(""+d.toString(16)+""+e+"", 16)
+
+                if(objnum <= 15){
+                    ctx.drawImage(obj, sx, sy)
+                    var num = objnum*4
+                    if(sy.toString(16) === "0"){
+                        sy = "00"
+                    } else {
+                        var yy = sy.toString(16)
+                        sy = yy
+                    }
+                    if(sx.toString(16) === "0"){
+                        sx = "00"
+                    } else {
+                        var yy = sx.toString(16)
+                        sx = yy
+                    }
+
+                    byteArray[loc+num] = ID
+                    byteArray[loc+num+1] = type
+                    byteArray[loc+num+2] = sx
+                    byteArray[loc+num+3] = sy
+                    byteArray[loc+num+4] = "ff"
+                    objnum += 1
+                    k += 1
+                } else {
+                    window.alert("16 is the object limit per screen")
+                }
+                //ctx.drawImage(objects[(parseInt(type, 16)][2],objects[(parseInt(type, 16)][0],objects[(parseInt(type, 16)][1])
+            } else if(document.getElementById("mode").selectedIndex === 2){
                 var x = Math.floor(e.offsetX/16)
                 var y = Math.floor(e.offsetY/16)
                 var sy = y*16
