@@ -232,25 +232,23 @@ var renderbank = function(added){
     if(added === true){
         roomedit.addEventListener("mousedown", function(e){
             var placeblock = function(ctx){
-                var edittile = true
-                if(tile === null || tile === undefined){
-                    edittile = false
-                }
-                var pos = parseInt(""+Math.floor(e.offsetY/16).toString(16)+""+Math.floor(e.offsetX/16).toString(16)+"", 16)
-                var posb = ""+parseInt(chunks[parseInt(pointers[selected], 16)-0x45].pointer+"00", 16)
+                var edittile = !!tile
+                var x = Math.floor(e.offsetX/16)
+                var y = Math.floor(e.offsetY/16)
+                var chunk = parseInt(pointers[selected],16)-0x45
+                var pos = parseInt(""+y.toString(16)+""+x.toString(16)+"", 16)
+                var posb = ""+parseInt(chunks[chunk].pointer+"00", 16)
                     posb -= 0x4000
                     posb += parseInt(startbank[input.selectedIndex], 16)
                     posb += pos
 
-                if(edittile === true){
+                if(edittile){
                     byteArray[posb] = tile
-                    chunks[parseInt(pointers[selected], 16)-0x45].chunk[pos] = tile
+                    chunks[chunk].chunk[pos] = tile
                 } else {
                     console.error("exception: tile not selected")
                     console.log("edits not applied")
                 }
-                var x = Math.floor(e.offsetX/16)
-                var y = Math.floor(e.offsetY/16)
                 var xpos = parseInt(tile.substr(1, 2), 16)*16
                 var ypos = parseInt(tile.substr(0, 1), 16)*16
                 var xclear = x*16
