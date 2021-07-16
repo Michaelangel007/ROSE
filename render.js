@@ -20,11 +20,9 @@ arrayGenerated = false
 var tilectx = document.getElementById("tilesetimage").getContext("2d")
 
 var drawgrid = function(ctx, style){
-    if(style != undefined||style != null){
-       ctx.fillStyle = style;
-    } else {
-       ctx.fillStyle = "white";
-    }
+       ctx.fillStyle = style
+                     ? style
+                     : "white"
 
     var x = 0
     while(x != 272){
