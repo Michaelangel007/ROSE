@@ -5,7 +5,7 @@ var drawChunkImageData = function(ctx,imageDatas){
     var c = 0
     for (let y = 0; y != 16; y += 1) {
         for (let x = 0; x != 16; x += 1) {
-            var data = new ImageData(imageDatas[parseInt(pointers[c],16)-parseInt("45",16)], 16)
+            var data = new ImageData(imageDatas[parseInt(pointers[c],16)-0x45], 16)
             ctx.putImageData(data, x*16, y*16)
             c += 1
         }
@@ -77,7 +77,7 @@ var addbankelement = function(){
             e += 1
         }
     }
-    totalbanksadded = byteArray.length/parseInt("4000", 16)
+    totalbanksadded = byteArray.length/0x4000
 }
 
 var changeTileset = function(tile){
@@ -112,7 +112,7 @@ var renderroom = function(){
             xpos -= 16
             ypos += 1
         }
-        var currentbyte = chunks[parseInt(pointers[selected], 16)-parseInt("45", 16)].chunk[d]
+        var currentbyte = chunks[parseInt(pointers[selected], 16)-0x45].chunk[d]
         //0 = 7f
         var tilex = parseInt(currentbyte, 16)
         var tiley = 0
@@ -141,7 +141,7 @@ var renderroom = function(){
     }
     var pos = selected.toString(16)
     var bank = document.getElementById("bankselect").selectedIndex + 9
-    if(byteArray[parseInt("4E75", 16)] === "0"+bank.toString(16)+""){
+    if(byteArray[0x4E75] === "0"+bank.toString(16)+""){
         if(byteArray[20073] === "0"+pos.substr(0, 1)+""){
             if(byteArray[20075] === "0"+pos.substr(1, 2)+""){
                 var x = parseInt(byteArray[20074], 16)
@@ -155,7 +155,7 @@ var renderroom = function(){
     var loc = epointers[selected]
     var e = loc.substr(2, 4)
     var d = parseInt(e, 16)
-    d += parseInt("80", 16)
+        d += 0x80;
     e = loc.substr(0, 2)
     var loc = parseInt(""+d.toString(16)+""+e+"", 16)
     //ID,type,x,y
@@ -225,14 +225,14 @@ var renderbank = function(added){
                 edittile = false
             }
             var pos = parseInt(""+Math.floor(e.offsetY/16).toString(16)+""+Math.floor(e.offsetX/16).toString(16)+"", 16)
-            var posb = ""+parseInt(chunks[parseInt(pointers[selected], 16)-parseInt("45", 16)].pointer+"00", 16)
-            posb -= parseInt("4000", 16)
-            posb += parseInt(startbank[input.selectedIndex], 16)
-            posb += pos
+            var posb = ""+parseInt(chunks[parseInt(pointers[selected], 16)-0x45].pointer+"00", 16)
+                posb -= 0x4000
+                posb += parseInt(startbank[input.selectedIndex], 16)
+                posb += pos
 
             if(edittile === true){
                 byteArray[posb] = tile
-                chunks[parseInt(pointers[selected], 16)-parseInt("45", 16)].chunk[pos] = tile
+                chunks[parseInt(pointers[selected], 16)-0x45].chunk[pos] = tile
             } else {
                 console.error("exception: tile not selected")
                 console.log("edits not applied")
@@ -262,7 +262,7 @@ var renderbank = function(added){
             var loc = document.getElementById("enemy-dat").value
             var e = loc.substr(2, 4)
             var d = parseInt(e, 16)
-            d += parseInt("80", 16)
+                d += 0x80
             e = loc.substr(0, 2)
             loc = parseInt(""+d.toString(16)+""+e+"", 16)
 
@@ -319,13 +319,13 @@ var renderbank = function(added){
                         edittile = false
                     }
                     var pos = parseInt(""+Math.floor(e.offsetY/16).toString(16)+""+Math.floor(e.offsetX/16).toString(16)+"", 16)
-                    var posb = ""+parseInt(chunks[parseInt(pointers[selected], 16)-parseInt("45", 16)].pointer+"00", 16)
-                    posb -= parseInt("4000", 16)
-                    posb += parseInt(startbank[input.selectedIndex], 16)
-                    posb += pos
+                    var posb = ""+parseInt(chunks[parseInt(pointers[selected], 16)-0x45].pointer+"00", 16)
+                        posb -= 0x4000
+                        posb += parseInt(startbank[input.selectedIndex], 16)
+                        posb += pos
                     if(edittile === true){
                         byteArray[posb] = tile
-                        chunks[parseInt(pointers[selected], 16)-parseInt("45", 16)].chunk[pos] = tile
+                        chunks[parseInt(pointers[selected], 16)-0x45].chunk[pos] = tile
                     } else {
                         console.error("exception: tile not selected")
                         console.log("edits not applied")
@@ -403,7 +403,7 @@ var renderbank = function(added){
                 }
 
                 transtext.onchange=function(){
-                    var loc = parseInt(startbank[input.selectedIndex], 16)+parseInt("300", 16)
+                    var loc = parseInt(startbank[input.selectedIndex], 16)+0x300
                     var select = selected * 2
                     var locp = loc + select
                     byteArray[locp] = transtext.value.substr(0, 2)
@@ -413,7 +413,7 @@ var renderbank = function(added){
                 }
 
                 scrolltext.onchange=function(){
-                    var loc = parseInt(startbank[input.selectedIndex], 16)+parseInt("200", 16)
+                    var loc = parseInt(startbank[input.selectedIndex], 16)+0x200
                     var locp = loc + selected
                     byteArray[locp] = scrolltext.value
                     scroll[selected] = scrolltext.value
@@ -422,7 +422,7 @@ var renderbank = function(added){
 
                 epointertext.onchange=function(){
                     var selection = input.selectedIndex*512
-                    var loc = parseInt("C2E0", 16)+selection
+                    var loc = 0xC2E0+selection
                     var locp = loc + selected
                     epointers[selected] = epointertext.value
                     byteArray[loc] = epointertext.value
@@ -465,7 +465,7 @@ var renderbank = function(added){
 
     point = 0
     while(point != 256){
-        var loc = parseInt(startbank[input.selectedIndex], 16)+parseInt("300", 16)
+        var loc = parseInt(startbank[input.selectedIndex], 16)+0x300
         var p = point *2
         var locp = loc + p
         room_transitions[point] = ""+byteArray[locp]+""+byteArray[locp+1]+""
@@ -474,7 +474,7 @@ var renderbank = function(added){
 
     point = 0
     while(point != 256){
-        var loc = parseInt(startbank[input.selectedIndex], 16)+parseInt("200", 16)
+        var loc = parseInt(startbank[input.selectedIndex], 16)+0x200
         var locp = loc + point
         scroll[point] = byteArray[locp]
         point += 1
@@ -483,7 +483,7 @@ var renderbank = function(added){
     point = 0
     while(point != 512){
         var selection = input.selectedIndex*512
-        var loc = parseInt("C2E0", 16)+selection
+        var loc = 0xC2E0+selection
         var locp = loc + point
         epointers[point] = ""+byteArray[locp]+""+byteArray[locp+1]+""
         point += 2
@@ -494,7 +494,7 @@ var renderbank = function(added){
     var p = 0
     while(point != 512){
         var selection = input.selectedIndex*512
-        var loc = parseInt("C2E0", 16)+selection
+        var loc = 0xC2E0+selection
         var locp = loc + point
         epointers[p] = ""+byteArray[locp]+""+byteArray[locp+1]+""
         point += 2
@@ -504,7 +504,7 @@ var renderbank = function(added){
 
     point = 0
     while(point != 59){
-        var chunk = parseInt("45", 16)
+        var chunk = 0x45
         chunk += point
         chunks[point] = {}
         chunks[point].pointer = chunk.toString(16)
@@ -512,10 +512,10 @@ var renderbank = function(added){
         chunks[point].collisions = []
         var e = 0
         while(e != 256){
-            var loc = parseInt(startbank[input.selectedIndex], 16)+parseInt("500", 16)
+            var loc = parseInt(startbank[input.selectedIndex], 16)+0x500
             var hex = chunks[point].pointer
             var pointer = parseInt(""+hex+"00", 16)
-            pointer -= parseInt("4500", 16)
+            pointer -= 0x4500
             loc += pointer
             var locp = loc + e
             chunks[point].chunk[e] = byteArray[locp]
@@ -543,7 +543,7 @@ var renderbank = function(added){
         }
     }
 
-    totalbanksadded = byteArray.length/parseInt("4000", 16)
+    totalbanksadded = byteArray.length/0x4000
 }
 
 var generateArray = function(array, simplePalette,chunks){
@@ -560,7 +560,7 @@ var generateArray = function(array, simplePalette,chunks){
         for (let y = 0; y != 16; y += 1) {
             for (let p = 0; p < 1024; p += 4) {
                 var e = x*y
-                      array[e][p] = simplePalette[chunks[parseInt(pointers[e],16)-parseInt("45",16)].collisions[Math.floor(p/4)]];// R value
+                      array[e][p] = simplePalette[chunks[parseInt(pointers[e],16)-0x45].collisions[Math.floor(p/4)]];// R value
                       array[e][p+1] = array[p];  // G value
                       array[e][p+2] = array[p] // B value
                       array[e][p+3] = 255;  // A value
@@ -584,7 +584,7 @@ var spawn = function(byteArray, x, y){
     byteArray[20074] = ""+x+""
     byteArray[20075] = "0"+hex.substr(1, 2)+""
     var bank = document.getElementById("bankselect").selectedIndex + 9
-    byteArray[parseInt("4E75", 16)] = "0"+bank.toString(16)+""
+    byteArray[0x4E75] = "0"+bank.toString(16)+""
     //window.alert("warning: collision data might not be right, expect glitches.")
 
     console.log("set spawn to bank "+bank.toString(16)+" on screen "+hex.toString(16)+", at x "+x+" and y "+y+".")
@@ -769,7 +769,7 @@ var viewdat = function(){
     var loc = epointers[selected]
     var e = loc.substr(2, 4)
     var d = parseInt(e, 16)
-    d += parseInt("80", 16)
+        d += 0x80
     e = loc.substr(0, 2)
     var loc = parseInt(""+d.toString(16)+""+e+"", 16)
     console.log(loc)
@@ -806,7 +806,7 @@ var deleteobj = function(input){
     var loc = epointers[selected]
     var e = loc.substr(2, 4)
     var d = parseInt(e, 16)
-    d += parseInt("80", 16)
+        d += 0x80
     e = loc.substr(0, 2)
     var loc = parseInt(""+d.toString(16)+""+e+"", 16)
     console.log(loc)
@@ -859,7 +859,7 @@ var deleted = function(){
 var addbank = function(n){
     if (totalbanksadded <= 255){
         var e = 0
-        var g = n*parseInt("4000", 16)
+        var g = n*0x4000
         var f = byteArray.length
         while(e <= 512){
             var h = f + e
