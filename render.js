@@ -3,7 +3,7 @@ var imageDatas = []
 var prevTileset
 
 // Render map tiles from
-var drawChunkImageData = function(ctx){
+var drawMap = function(ctx){
     // BUGFIX: Don't render if user hasn't loaded ROM file yet
     if(pointers[0] === undefined)
         return;
@@ -363,12 +363,12 @@ var renderbank = function(added){
         if(added === true){
             canvas.addEventListener("mousedown", function(e){
                 var simplePalette = [0,255,127]
-                var bitmap = [], ibitmap
+                var mapBitmap = [], ibitmap
 
-                for(ibitmap = 0; ibitmap < 256; ibitmap++){
-                    bitmap[ibitmap]=new Uint8ClampedArray(1024)
+                for(ibitmap = 0; ibitmap < 256; ibitmap++){ // 16x16 rooms in map
+                    mapBitmap[ibitmap] = new Uint8ClampedArray(1024) // 16x16 x 32-bit = 1024
                 }
-                generateArray(bitmap, simplePalette, chunks)
+                generateMapTiles(mapBitmap, simplePalette, chunks)
 
                 var pointertext = document.getElementById("pointers")
                 var scrolltext = document.getElementById("scroll")
@@ -384,7 +384,7 @@ var renderbank = function(added){
                 epointertext.value = epointers[selected]
                 ctx.fillStyle = "white";
                 ctx.clearRect(0, 0, 256, 256);
-                drawChunkImageData(ctx)//.putImageData(imageData, 0, 0)
+                drawMap(ctx)//.putImageData(imageData, 0, 0)
                 drawgrid(ctx)
                 drawgrid(ctx)
 
@@ -556,30 +556,20 @@ var renderbank = function(added){
     totalbanksadded = byteArray.length/0x4000
 }
 
-var generateArray = function(array, simplePalette,chunks){
-    for (let x = 0; x != 59; x += 1){
-        for (let p = 0; p < 1024; p += 4) {
-          array[x][p] = simplePalette[chunks[x].collisions[Math.floor(p/4)]];// R value
-          array[x][p+1] = array[x][p];  // G value
-          array[x][p+2] = array[x][p] // B value
-          array[x][p+3] = 255;  // A value
-        }
-    }
-/*
-    for (let x = 0; x != 16; x += 1) {
-        for (let y = 0; y != 16; y += 1) {
-            for (let p = 0; p < 1024; p += 4) {
-                var e = x*y
-                      array[e][p] = simplePalette[chunks[parseInt(pointers[e],16)-0x45].collisions[Math.floor(p/4)]];// R value
-                      array[e][p+1] = array[p];  // G value
-                      array[e][p+2] = array[p] // B value
-                      array[e][p+3] = 255;  // A value
+// Generate monochome sprites
+var generateMapTiles = function(array, simplePalette, chunks){
+    var mono, ichunk, pixel
 
-            }
+    for (ichunk = 0; ichunk != 59; ichunk++){
+        for (pixel = 0; pixel < 1024; pixel += 4){ // 16x16 x 32-bit = 1024 bytes
+            mono = simplePalette[chunks[ichunk].collisions[(pixel/4)|0]]
+            array[ichunk][pixel+0] = mono // R value
+            array[ichunk][pixel+1] = mono // G value
+            array[ichunk][pixel+2] = mono // B value
+            array[ichunk][pixel+3] = 255  // A value
         }
     }
-*/
-    imageDatas=array
+    imageDatas = array
 }
 
 /*set spawn template(need to implement the save editor first to get the pointer locations)*/
@@ -939,16 +929,20 @@ window.addEventListener("EnterFrame", function(){
 })
 
 window.addEventListener("mousedown", function(){
+    var ctxMap = document.getElementById("edit").getContext("2d")
+
     renderroom()
     changeTileset(imagetileset)
-    drawChunkImageData(document.getElementById("edit").getContext("2d"))
-    drawgrid(document.getElementById("edit").getContext("2d"))
+    drawMap(ctxMap)
+    drawgrid(ctxMap)
 })
 
 window.addEventListener("mouseup", function(){
+    var ctxMap = document.getElementById("edit").getContext("2d")
+
     renderroom()
     changeTileset(imagetileset)
-    drawChunkImageData(document.getElementById("edit").getContext("2d"))
-    drawgrid(document.getElementById("edit").getContext("2d"))
+    drawMap(ctxMap)
+    drawgrid(ctxMap)
 })
 
