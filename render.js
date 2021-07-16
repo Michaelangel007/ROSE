@@ -2,6 +2,10 @@ var startbank = ["24000","28000","2C000","30000","34000","38000","3C000"]
 var imageDatas = []
 var prevTileset
 var drawChunkImageData = function(ctx,imageDatas){
+    // BUGFIX: Don't render if user hasn't loaded ROM file yet
+    if(pointers[0] === undefined)
+        return;
+
     var c = 0
     for (let y = 0; y != 16; y += 1) {
         for (let x = 0; x != 16; x += 1) {
@@ -82,7 +86,11 @@ var addbankelement = function(){
 
 var changeTileset = function(tile){
     var ctx = document.getElementById("tilesetimage").getContext("2d")
-    ctx.drawImage(tile, 0, 0)
+
+    // BUGFIX: Don't render if user hasn't loaded ROM file yet
+    if( tile ){
+        ctx.drawImage(tile, 0, 0)
+    }
     //console.log("drew tileset")
 }
 
@@ -104,7 +112,14 @@ var loadtileset = function(){
 }
 
 var renderroom = function(){
+    // BUGFIX: Don't render if user hasn't loaded ROM file yet
+    var chunk = pointers[selected]
+    if(chunk === undefined)
+        return
+
+    var renderer = roomedit.getContext("2d")
     var d = 0
+
     while(d != 256){
         var xpos = d
         var ypos = 0
@@ -112,7 +127,7 @@ var renderroom = function(){
             xpos -= 16
             ypos += 1
         }
-        var currentbyte = chunks[parseInt(pointers[selected], 16)-0x45].chunk[d]
+        var currentbyte = chunks[parseInt(chunk, 16)-0x45].chunk[d]
         //0 = 7f
         var tilex = parseInt(currentbyte, 16)
         var tiley = 0
@@ -120,7 +135,6 @@ var renderroom = function(){
             tilex -= 16
             tiley += 1
         }
-        var renderer = roomedit.getContext("2d")
         var xOffset = 0
         var yOffset = 0
         if(x != undefined ||x != null){
